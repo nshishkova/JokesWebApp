@@ -1,0 +1,67 @@
+﻿@page
+@model JokesWebApp.Pages.Jokes.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Jokes</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-action no-color">
+        Search
+        <input type="text" name="SearchString" value="@Model.currentFilter" />
+        <input type="submit" name="Search by keyword" class=" " btn btn-default />
+        <a asp-page="./Index">Show all</a>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.JokeQuestionSort" asp-route-currentFilter="@Model.currentFilter">
+                    @Html.DisplayNameFor(model => model.Joke[0].JokeQuestion)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Joke)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JokeQuestion)
+                </td>
+
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.JokeId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.JokeId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.JokeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Joke.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Joke.HasNextPage ? "disabled" : "";
+}
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.currentSort"
+   asp-route-pageIndex="@(Model.Joke.PageIndex - 1)"
+   asp-route-currentFilter="@Model.currentFilter"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.currentSort"
+   asp-route-pageIndex="@(Model.Joke.PageIndex + 1)"
+   asp-route-currentFilter="@Model.currentFilter"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

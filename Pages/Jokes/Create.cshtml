@@ -1,0 +1,81 @@
+﻿@page
+@model JokesWebApp.Pages.Jokes.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Joke</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Joke.JokeQuestion" class="control-label"></label>
+                <input asp-for="Joke.JokeQuestion" class="form-control" />
+                <span asp-validation-for="Joke.JokeQuestion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Joke.JokeAnswer" class="control-label"></label>
+                <input asp-for="Joke.JokeAnswer" class="form-control" />
+                <span asp-validation-for="Joke.JokeAnswer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Joke.JokeDate" class="control-label"></label>
+                <input asp-for="Joke.JokeDate" class="form-control" />
+                <span asp-validation-for="Joke.JokeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-7 col-md-12">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+
+                                foreach (var category in Model.JokeCategoryDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox" name="selectedCategories" value="@category.CategoryId" />
+                                        @category.name
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+            </div>
+                
+                @*<div class="form-group">
+                    <label>Author</label>
+                    //<select asp-for="Joke.Author.Name" asp-items="Model.Authors" class="form-control"></select>
+                    <span asp-validation-for="Joke.Author.Name" class="text-danger"></span>*@
+
+            <div class="form-group">
+                <label>Author</label>
+                <label asp-for="Joke.Author.Name" class="control-label"></label>
+                <input asp-for="Joke.Author.Name" class="form-control" />
+                <span asp-validation-for="Joke.Author.Name" class="text-danger"></span>
+            </div>
+
+              
+               <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
